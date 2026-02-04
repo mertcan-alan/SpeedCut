@@ -221,3 +221,65 @@ body {
 .toast.hidden {
     transform: translateX(-50%) translateY(100%);
 }
+
+/* Ad Banner */
+.ad-banner {
+    margin-top: 16px;
+    padding: 0 2px;
+}
+
+.ad-link {
+    display: block;
+    text-decoration: none;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 152, 0, 0.1) 100%);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 10px;
+    padding: 12px 14px;
+    transition: all 0.3s ease;
+}
+
+.ad-link:hover {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.25) 0%, rgba(255, 152, 0, 0.2) 100%);
+    border-color: rgba(255, 193, 7, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+}
+
+.ad-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ad-icon {
+    font-size: 22px;
+    filter: drop-shadow(0 0 6px rgba(255, 193, 7, 0.4));
+}
+
+.ad-text {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.ad-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffc107;
+}
+
+.ad-subtitle {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.ad-arrow {
+    font-size: 16px;
+    color: rgba(255, 193, 7, 0.7);
+    transition: transform 0.2s ease;
+}
+
+.ad-link:hover .ad-arrow {
+    transform: translateX(3px);
+    color: #ffc107;
+}
