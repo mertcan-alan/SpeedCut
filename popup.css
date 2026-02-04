@@ -1,0 +1,223 @@
+/**
+ * SpeedCut Popup Styles
+ * Modern dark theme with YouTube red accent
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 280px;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+    color: #ffffff;
+}
+
+.popup-container {
+    padding: 16px;
+}
+
+/* Header */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    font-size: 20px;
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.5));
+}
+
+.logo h1 {
+    font-size: 18px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #ff0000, #ff4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.version {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* Content */
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.keybind-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.keybind-group label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.keybind-input {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.keybind-input:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.keybind-input:focus,
+.keybind-input.listening {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: #ff0000;
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.2);
+}
+
+.keybind-input .key-display {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.keybind-input .hint {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.3);
+    transition: opacity 0.2s ease;
+}
+
+.keybind-input:hover .hint {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.keybind-input.listening .hint {
+    display: none;
+}
+
+.keybind-input.listening .key-display {
+    color: #ff4444;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Footer */
+.popup-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-icon {
+    font-size: 14px;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ff2222 0%, #dd0000 100%);
+    box-shadow: 0 6px 16px rgba(255, 0, 0, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    background: #22c55e;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.hidden {
+    transform: translateX(-50%) translateY(100%);
+}
