@@ -57,7 +57,7 @@ We may update this Privacy Policy from time to time. Any changes will be reflect
 If you have any questions about this Privacy Policy, please contact us:
 
 - **GitHub:** [github.com/mertcan-alan/SpeedCut](https://github.com/mertcan-alan/SpeedCut)
-- **Email:** [Your email address]
+- **Email:** [mertcanalan@proton.me]
 
 ## Consent
 
