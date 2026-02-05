@@ -33,6 +33,9 @@
   // Current keybindings (will be loaded from storage)
   let keybindings = { ...DEFAULT_KEYBINDINGS };
 
+  // Default speed for reset (will be loaded from storage)
+  let defaultSpeed = 1.0;
+
   // State management
   const state = {
     isHolding: false,
@@ -42,25 +45,34 @@
     hudTimeout: null
   };
 
-  // Load keybindings from storage
-  async function loadKeybindings() {
+  // Load keybindings and settings from storage
+  async function loadSettings() {
     try {
-      const result = await chrome.storage.sync.get('keybindings');
+      const result = await chrome.storage.sync.get(['keybindings', 'defaultSpeed']);
       if (result.keybindings) {
         keybindings = { ...DEFAULT_KEYBINDINGS, ...result.keybindings };
       }
-      console.log('🎬 SpeedCut: Keybindings loaded', keybindings);
+      if (result.defaultSpeed !== undefined) {
+        defaultSpeed = result.defaultSpeed;
+      }
+      console.log('🎬 SpeedCut: Settings loaded', { keybindings, defaultSpeed });
     } catch (error) {
-      console.log('🎬 SpeedCut: Using default keybindings');
+      console.log('🎬 SpeedCut: Using default settings');
     }
   }
 
   // Listen for storage changes
   function listenForStorageChanges() {
     chrome.storage.onChanged.addListener((changes, namespace) => {
-      if (namespace === 'sync' && changes.keybindings) {
-        keybindings = { ...DEFAULT_KEYBINDINGS, ...changes.keybindings.newValue };
-        console.log('🎬 SpeedCut: Keybindings updated', keybindings);
+      if (namespace === 'sync') {
+        if (changes.keybindings) {
+          keybindings = { ...DEFAULT_KEYBINDINGS, ...changes.keybindings.newValue };
+          console.log('🎬 SpeedCut: Keybindings updated', keybindings);
+        }
+        if (changes.defaultSpeed) {
+          defaultSpeed = changes.defaultSpeed.newValue;
+          console.log('🎬 SpeedCut: Default speed updated', defaultSpeed);
+        }
       }
     });
   }
@@ -187,7 +199,7 @@
 
     // Handle reset immediately on keydown
     if (action === 'resetSpeed') {
-      setSpeed(1.0);
+      setSpeed(defaultSpeed);
       return;
     }
 
@@ -233,10 +245,10 @@
 
   // Initialize the extension
   async function init() {
-    // Load keybindings from storage
-    await loadKeybindings();
+    // Load settings from storage
+    await loadSettings();
 
-    // Listen for changes to keybindings
+    // Listen for changes to settings
     listenForStorageChanges();
 
     // Add event listeners with capture to catch events before YouTube

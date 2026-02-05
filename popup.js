@@ -10,8 +10,14 @@ const DEFAULT_KEYBINDINGS = {
     resetSpeed: { code: 'NumpadMultiply', display: 'Numpad *' }
 };
 
+// Default speed value
+const DEFAULT_SPEED = 1.0;
+
 // Current keybindings state
 let keybindings = { ...DEFAULT_KEYBINDINGS };
+
+// Current default speed
+let defaultSpeed = DEFAULT_SPEED;
 
 // Currently listening input element
 let activeInput = null;
@@ -21,6 +27,8 @@ const elements = {
     speedUp: document.getElementById('speedUp'),
     speedDown: document.getElementById('speedDown'),
     resetSpeed: document.getElementById('resetSpeed'),
+    defaultSpeedInput: document.getElementById('defaultSpeed'),
+    resetSpeedLabel: document.getElementById('resetSpeedLabel'),
     saveBtn: document.getElementById('saveBtn'),
     resetBtn: document.getElementById('resetBtn'),
     toast: document.getElementById('toast')
@@ -107,7 +115,7 @@ function getKeyDisplayName(code) {
     return code;
 }
 
-// Update UI with current keybindings
+// Update UI with current keybindings and settings
 function updateUI() {
     for (const [action, binding] of Object.entries(keybindings)) {
         const element = elements[action];
@@ -116,35 +124,57 @@ function updateUI() {
             keyDisplay.textContent = binding.display;
         }
     }
+    
+    // Update default speed input
+    elements.defaultSpeedInput.value = defaultSpeed.toFixed(1);
+    
+    // Update reset label
+    updateResetLabel();
 }
 
-// Load keybindings from storage
-async function loadKeybindings() {
+// Update reset speed label dynamically
+function updateResetLabel() {
+    elements.resetSpeedLabel.textContent = `Reset to ${defaultSpeed.toFixed(1)}x`;
+}
+
+// Load keybindings and settings from storage
+async function loadSettings() {
     try {
-        const result = await chrome.storage.sync.get('keybindings');
+        const result = await chrome.storage.sync.get(['keybindings', 'defaultSpeed']);
         if (result.keybindings) {
             keybindings = { ...DEFAULT_KEYBINDINGS, ...result.keybindings };
         }
+        if (result.defaultSpeed !== undefined) {
+            defaultSpeed = result.defaultSpeed;
+        }
         updateUI();
     } catch (error) {
-        console.error('Failed to load keybindings:', error);
+        console.error('Failed to load settings:', error);
     }
 }
 
-// Save keybindings to storage
-async function saveKeybindings() {
+// Save keybindings and settings to storage
+async function saveSettings() {
     try {
-        await chrome.storage.sync.set({ keybindings });
+        // Get and validate default speed from input
+        const speedValue = parseFloat(elements.defaultSpeedInput.value);
+        if (!isNaN(speedValue) && speedValue >= 0.1 && speedValue <= 16) {
+            defaultSpeed = Math.round(speedValue * 10) / 10; // Round to 1 decimal
+        }
+        
+        await chrome.storage.sync.set({ keybindings, defaultSpeed });
+        updateResetLabel();
         showToast('Settings saved!');
     } catch (error) {
-        console.error('Failed to save keybindings:', error);
+        console.error('Failed to save settings:', error);
         showToast('Failed to save!');
     }
 }
 
-// Reset to default keybindings
+// Reset to default keybindings and settings
 function resetToDefault() {
     keybindings = { ...DEFAULT_KEYBINDINGS };
+    defaultSpeed = DEFAULT_SPEED;
     updateUI();
     showToast('Reset to defaults');
 }
@@ -222,8 +252,8 @@ function handleKeyCapture(event) {
 
 // Initialize
 function init() {
-    // Load saved keybindings
-    loadKeybindings();
+    // Load saved settings
+    loadSettings();
 
     // Setup click handlers for keybind inputs
     for (const [action, element] of Object.entries(elements)) {
@@ -243,10 +273,18 @@ function init() {
     });
 
     // Save button
-    elements.saveBtn.addEventListener('click', saveKeybindings);
+    elements.saveBtn.addEventListener('click', saveSettings);
 
     // Reset button
     elements.resetBtn.addEventListener('click', resetToDefault);
+    
+    // Update label when input changes
+    elements.defaultSpeedInput.addEventListener('input', () => {
+        const value = parseFloat(elements.defaultSpeedInput.value);
+        if (!isNaN(value) && value >= 0.1 && value <= 16) {
+            elements.resetSpeedLabel.textContent = `Reset to ${value.toFixed(1)}x`;
+        }
+    });
 }
 
 // Run initialization

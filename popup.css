@@ -228,6 +228,54 @@ body {
     opacity: 0;
 }
 
+/* Speed Input */
+.speed-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.speed-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 30px 12px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    outline: none;
+    transition: all 0.2s ease;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.speed-input::-webkit-outer-spin-button,
+.speed-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.speed-input:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.speed-input:focus {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: #ff0000;
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.2);
+}
+
+.speed-suffix {
+    position: absolute;
+    right: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+}
+
 /* Support Link */
 .support-link {
     margin-top: 12px;
