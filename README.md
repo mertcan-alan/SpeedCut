@@ -4,7 +4,7 @@
 
 ### YouTube Video Speed Controller
 
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)]([https://chrome.google.com](https://chromewebstore.google.com/detail/speedcut-youtube-speed-co/boiednpnahaahceggfbfejjpljpmmgpg?authuser=0&hl=tr))
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/speedcut-youtube-speed-co/boiednpnahaahceggfbfejjpljpmmgpg))
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-00C853?style=for-the-badge)](https://developer.chrome.com/docs/extensions/mv3/)
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
