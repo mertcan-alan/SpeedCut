@@ -25,9 +25,9 @@
 
   // Default keybindings
   const DEFAULT_KEYBINDINGS = {
-    speedUp: { code: 'NumpadAdd', display: 'Numpad +' },
-    speedDown: { code: 'NumpadSubtract', display: 'Numpad -' },
-    resetSpeed: { code: 'NumpadMultiply', display: 'Numpad *' }
+    speedUp: { code: 'NumpadAdd', key: '+', display: 'Numpad +' },
+    speedDown: { code: 'NumpadSubtract', key: '-', display: 'Numpad -' },
+    resetSpeed: { code: 'NumpadMultiply', key: '*', display: 'Numpad *' }
   };
 
   // Current keybindings (will be loaded from storage)
@@ -175,17 +175,27 @@
     state.activeKey = null;
   }
 
-  // Get action from key code
-  function getActionFromKey(code) {
-    if (code === keybindings.speedUp.code) return 'speedUp';
-    if (code === keybindings.speedDown.code) return 'speedDown';
-    if (code === keybindings.resetSpeed.code) return 'resetSpeed';
+  // Get action from key code and key value
+  // Uses both code and key to ensure only the exact registered key triggers the action
+  function getActionFromKey(code, key) {
+    // Check speedUp binding - must match both code and key (if key is stored)
+    const speedUp = keybindings.speedUp;
+    if (code === speedUp.code && (!speedUp.key || key === speedUp.key)) return 'speedUp';
+
+    // Check speedDown binding
+    const speedDown = keybindings.speedDown;
+    if (code === speedDown.code && (!speedDown.key || key === speedDown.key)) return 'speedDown';
+
+    // Check resetSpeed binding
+    const resetSpeed = keybindings.resetSpeed;
+    if (code === resetSpeed.code && (!resetSpeed.key || key === resetSpeed.key)) return 'resetSpeed';
+
     return null;
   }
 
   // Handle keydown event
   function handleKeyDown(e) {
-    const action = getActionFromKey(e.code);
+    const action = getActionFromKey(e.code, e.key);
     if (!action) return;
 
     // Prevent default browser behavior
@@ -218,7 +228,7 @@
 
   // Handle keyup event
   function handleKeyUp(e) {
-    const action = getActionFromKey(e.code);
+    const action = getActionFromKey(e.code, e.key);
     if (!action || action === 'resetSpeed') return;
 
     // Check if this was the active key

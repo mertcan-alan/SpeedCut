@@ -5,9 +5,9 @@
 
 // Default keybindings
 const DEFAULT_KEYBINDINGS = {
-    speedUp: { code: 'NumpadAdd', display: 'Numpad +' },
-    speedDown: { code: 'NumpadSubtract', display: 'Numpad -' },
-    resetSpeed: { code: 'NumpadMultiply', display: 'Numpad *' }
+    speedUp: { code: 'NumpadAdd', key: '+', display: 'Numpad +' },
+    speedDown: { code: 'NumpadSubtract', key: '-', display: 'Numpad -' },
+    resetSpeed: { code: 'NumpadMultiply', key: '*', display: 'Numpad *' }
 };
 
 // Default speed value
@@ -124,10 +124,10 @@ function updateUI() {
             keyDisplay.textContent = binding.display;
         }
     }
-    
+
     // Update default speed input
     elements.defaultSpeedInput.value = defaultSpeed.toFixed(1);
-    
+
     // Update reset label
     updateResetLabel();
 }
@@ -161,7 +161,7 @@ async function saveSettings() {
         if (!isNaN(speedValue) && speedValue >= 0.1 && speedValue <= 16) {
             defaultSpeed = Math.round(speedValue * 10) / 10; // Round to 1 decimal
         }
-        
+
         await chrome.storage.sync.set({ keybindings, defaultSpeed });
         updateResetLabel();
         showToast('Settings saved!');
@@ -234,10 +234,11 @@ function handleKeyCapture(event) {
     // Get action from active input
     const action = activeInput.dataset.action;
 
-    // Update keybinding
+    // Update keybinding - save both code and key for accurate matching
     const displayName = getKeyDisplayName(event.code);
     keybindings[action] = {
         code: event.code,
+        key: event.key,
         display: displayName
     };
 
@@ -277,7 +278,7 @@ function init() {
 
     // Reset button
     elements.resetBtn.addEventListener('click', resetToDefault);
-    
+
     // Update label when input changes
     elements.defaultSpeedInput.addEventListener('input', () => {
         const value = parseFloat(elements.defaultSpeedInput.value);
